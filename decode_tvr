@@ -1,0 +1,222 @@
+// Online C compiler to run C program online
+#include <stdio.h>
+#include <string.h>
+int BexaToBinary(char* hexa, char* binary){
+    char temp[5]="!!!!";
+    for(int i=0;i<strlen(hexa);i++){
+        
+        switch(hexa[i])
+		{
+			case '0' : strcpy(temp, "0000");
+				break;
+			case '1' : strcpy(temp, "0001");
+				break;
+			case '2' : strcpy(temp, "0010");
+				break;
+			case '3' : strcpy(temp, "0011");
+				break;
+			case '4' : strcpy(temp, "0100");
+				break;
+			case '5' : strcpy(temp, "0101");
+				break;
+			case '6' : strcpy(temp, "0110");
+				break;
+			case '7' : strcpy(temp, "0111");
+				break;
+			case '8' : strcpy(temp, "1000");
+				break;
+			case '9' : strcpy(temp, "1001");
+				break;
+			case 'A' : strcpy(temp, "1010");
+				break;
+			case 'B' : strcpy(temp, "1011");
+				break;
+			case 'C' : strcpy(temp, "1100");
+				break;
+			case 'D' : strcpy(temp, "1101");
+				break;
+			case 'E' : strcpy(temp, "1110");
+				break;
+			case 'F' : strcpy(temp, "1111");
+				break;
+			case 'a' : strcpy(temp, "1010");
+				break;
+			case 'b' : strcpy(temp, "1011");
+				break;
+			case 'c' : strcpy(temp, "1100");
+				break;
+			case 'd' : strcpy(temp, "1101");
+				break;
+			case 'e' : strcpy(temp, "1110");
+				break;
+			case 'f' : strcpy(temp, "1111");
+				break;
+			default : printf("\nInvalid Entry, Please Try Again  %c",hexa[i]);
+		}
+		binary[i*4]= temp[0];
+		binary[i*4 +1]= temp[1];
+		binary[i*4 +2]= temp[2];
+		binary[i*4 +3]= temp[3];
+    }
+    return 0;
+}
+int decode_tvr(char* emv_de_95){
+    int z = strlen(emv_de_95);
+    char tvr[(2*z)+1];
+    int x = sizeof(tvr);
+    printf("***** TVR DECODE %s *****\n",emv_de_95);
+    printf("\n");
+    if (strlen(emv_de_95) != 10)
+       printf("Invalide tvr\n");
+    int a= BexaToBinary(emv_de_95,tvr);
+    for(int i=0;i<strlen(tvr);i+=8){
+        printf("==============================================================\n");
+        printf("------------------ Byte %d : %c%c%c%c%c%c%c%c ------------------------\n",i/8 + 1,tvr[i],tvr[i+1],tvr[i+2],tvr[i+3],tvr[i+4],tvr[i+5],tvr[i+6],tvr[i+7]);
+        printf("==============================================================\n");
+
+        if ((i/8 + 1) == 1 ){
+            if (tvr[i]=='1'){
+                printf("Offline data authentication was not performed\n");
+            }
+            if (tvr[i+1]=='1'){
+                printf("SDA failed\n");
+            }
+            if (tvr[i+2]=='1'){
+                printf("ICC data missing\n");
+            }
+            if (tvr[i+3]=='1'){
+                printf("Card appears on terminal exception file\n");
+            }
+            if (tvr[i+4]=='1'){
+                printf("DDA failed\n");
+            }
+            if (tvr[i+5]=='1'){
+                printf("CDA failed\n");
+            }
+            if (tvr[i+6]=='1'){
+                printf("SDA selected\n");
+            }
+            if (tvr[i+7]=='1'){
+                printf("RFU\n");
+            }
+       }
+       
+       if ((i/8 + 1) == 2 ){
+            if (tvr[i]=='1'){
+                printf("ICC and terminal have different application versions\n");
+            }
+            if (tvr[i+1]=='1'){
+                printf("Expired application\n");
+            }
+            if (tvr[i+2]=='1'){
+                printf("Application not yet effective\n");
+            }
+            if (tvr[i+3]=='1'){
+                printf("Service not allowed for card product\n");
+            }
+            if (tvr[i+4]=='1'){
+                printf("New card\n");
+            }
+            if (tvr[i+5]=='1'){
+                printf("RFU\n");
+            }
+            if (tvr[i+6]=='1'){
+                printf("RFU\n");
+            }
+            if (tvr[i+7]=='1'){
+                printf("RFU\n");
+            }
+       }
+       
+       if ((i/8 + 1) == 3 ){
+            if (tvr[i]=='1'){
+                printf("Cardholder verification was not successful\n");
+            }
+            if (tvr[i+1]=='1'){
+                printf("Unrecognized CVM\n");
+            }
+            if (tvr[i+2]=='1'){
+                printf("PIN Try Limit exceeded\n");
+            }
+            if (tvr[i+3]=='1'){
+                printf("PIN entry required and PIN pad not present or not working\n");
+            }
+            if (tvr[i+4]=='1'){
+                printf("PIN entry required, PIN pad present, but PIN was not entered\n");
+            }
+            if (tvr[i+5]=='1'){
+                printf("Online PIN entered\n");
+            }
+            if (tvr[i+6]=='1'){
+                printf("RFU\n");
+            }
+            if (tvr[i+7]=='1'){
+                printf("RFU\n");
+            }
+       }
+       
+       if ((i/8 + 1) == 4 ){
+            if (tvr[i]=='1'){
+                printf("Transaction exceeds floor limit\n");
+            }
+            if (tvr[i+1]=='1'){
+                printf("Lower consecutive offline limit exceeded\n");
+            }
+            if (tvr[i+2]=='1'){
+                printf("Upper consecutive offline limit exceeded\n");
+            }
+            if (tvr[i+3]=='1'){
+                printf("Transaction selected randomly for online processing\n");
+            }
+            if (tvr[i+4]=='1'){
+                printf("Merchant forced transaction online\n");
+            }
+            if (tvr[i+5]=='1'){
+                printf("RFU\n");
+            }
+            if (tvr[i+6]=='1'){
+                printf("RFU\n");
+            }
+            if (tvr[i+7]=='1'){
+                printf("RFU\n");
+            }
+       }
+       
+       if ((i/8 + 1) == 5 ){
+            if (tvr[i]=='1'){
+                printf("Default TDOL used\n");
+            }
+            if (tvr[i+1]=='1'){
+                printf("Issuer authentication failed\n");
+            }
+            if (tvr[i+2]=='1'){
+                printf("Script processing failed before final GENERATE AC\n");
+            }
+            if (tvr[i+3]=='1'){
+                printf("Script processing failed after final GENERATE AC\n");
+            }
+            if (tvr[i+4]=='1'){
+                printf("RFU\n");
+            }
+            if (tvr[i+5]=='1'){
+                printf("RFU\n");
+            }
+            if (tvr[i+6]=='1'){
+                printf("RFU\n");
+            }
+            if (tvr[i+7]=='1'){
+                printf("RFU\n");
+            }
+       }
+       printf("\n");
+    }
+   
+    return 0;   
+}
+int main() {
+    char tvr[11] ="A2894DE48C";
+    //char* pt_tvr = &tvr;
+    //printf("pt_tvr is %c \n",pt_tvr );
+    int r = decode_tvr(tvr);
+    return 0;
+}
